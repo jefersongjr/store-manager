@@ -2,7 +2,10 @@ const Joi = require('joi');
 const productsModel = require('../models/products.model');
 
 const productsSchema = Joi.object({
-  name: Joi.string().min(5).required(),
+  name: Joi.string().min(5).required().messages({
+    'any.required': '400|"name" is required',
+    'string.min': '422|"name" length must be at least 5 characters long',
+  }),
 });
 
 const getProducts = async () => {
@@ -17,12 +20,13 @@ const getProductsId = async (id) => {
 
 const createProduct = async (name) => {
   const { error } = productsSchema.validate({ name });
-  const x = { status: 400, message: error.message };
-  if (!error) {
-    throw x;
+  if (error) {
+    const [code, message] = error.message.split('|');
+    const x = { status: code, message };
+      throw x;
   }
-  const id = await productsModel.addNewProduct({ name });
-  return { id, name: name.name };
+  const id = await productsModel.addNewProduct(name);
+  return { id, name };
 };
 
 module.exports = {

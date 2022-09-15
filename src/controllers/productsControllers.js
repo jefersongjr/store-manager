@@ -17,7 +17,7 @@ const getProductsById = async (request, response) => {
 const createNewProduct = async (request, response, next) => {
   try {
     const { name } = request.body;
-    const newProduct = await productsServices.createProduct({ name });
+    const newProduct = await productsServices.createProduct(name);
   return response.status(201).json(newProduct);
   } catch (error) {
     next(error);
