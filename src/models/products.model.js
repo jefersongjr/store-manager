@@ -15,7 +15,14 @@ const [[result]] = await connection.execute(
   return result;
 };
 
+const addNewProduct = async (name) => {
+  const query = 'INSERT INTO StoreManager.products (name) VALUES(?)';
+  const [result] = await connection.execute(query, [name]);
+  return result.insertId;
+};
+
 module.exports = {
   findProducts,
   findProductsById,
+  addNewProduct,
 };
