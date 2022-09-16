@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const productsModel = require('../models/products.model');
+const productsModel = require('../models/productsModel');
 
 const productsSchema = Joi.object({
   name: Joi.string().min(5).required().messages({
