@@ -15,6 +15,7 @@ const getProducts = async () => {
 
 const getProductsId = async (id) => {
   const products = await productsModel.findProductsById(id);
+  console.log(products);
   return products;
 };
 
@@ -29,8 +30,18 @@ const createProduct = async (name) => {
   return { id, name };
 };
 
+const deleteProductId = async (id) => {
+  const x = await getProductsId(id);
+  if (!x) {
+    return null;
+  }
+  const result = await productsModel.deleteProduct(id);
+  return result;
+};
+
 module.exports = {
   getProducts,
   getProductsId,
   createProduct,
+  deleteProductId,
 };

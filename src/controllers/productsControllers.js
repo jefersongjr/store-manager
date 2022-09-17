@@ -8,8 +8,6 @@ const getAllProducts = async (request, response) => {
 const getProductsById = async (request, response) => {
   const { id } = request.params;
   const products = await productsServices.getProductsId(id);
-   const x = await productsServices.getProductsId([1, 2]);
-  console.log(x);
   if (!products) {
     return response.status(404).json({ message: 'Product not found' });
   }
@@ -26,8 +24,18 @@ const createNewProduct = async (request, response, _next) => {
   }
 };
 
+const deleteProductById = async (request, response) => {
+  const { id } = request.params;
+  const products = await productsServices.deleteProductId(id);
+  if (!products) {
+    return response.status(404).json({ message: 'Product not found' });
+  }
+  return response.status(204).json(products);
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
   createNewProduct,
+  deleteProductById,
 };
