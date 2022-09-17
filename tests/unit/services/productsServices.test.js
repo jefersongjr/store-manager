@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const productsServices = require('../../../src/services/productsServices');
 const productsModel = require('../../../src/models/productsModel');
-const { allProducts, productById } = require('../../mocks/mockProducts');
+const { allProducts, productById, responseNewProduct } = require('../../mocks/mockProducts');
 
 describe('testes na camada Services',async  () => {
   describe('testa A listagem de Produtos',async () => { 
@@ -38,6 +38,21 @@ describe('testes na camada Services',async  () => {
     it('Testa se o retorno da busca de um produto por id na camada Service ', async () => {
     const result = await productsServices.getProductsId(1);
     expect(result).to.be.deep.equal(productById);
+    })
+  }) 
+
+   describe('testa a reposta ao adicionar um novo produto', () => { 
+    before(async () => {
+        sinon.stub(productsModel, 'addNewProduct').resolves(responseNewProduct.id);
+    })
+
+    after(async () => {
+      productsModel.addNewProduct.restore();
+    })
+
+    it('Testa se o retorno da busca de um produto por id na camada Service ', async () => {
+    const result = await productsServices.createProduct('ProdutoX');
+    expect(result).to.be.deep.equal(responseNewProduct);
     })
   }) 
 });

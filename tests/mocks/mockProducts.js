@@ -19,7 +19,18 @@ const productById = [
     "name": "Martelo de Thor"
   }]
 
+const newProduct = {
+  "name": "ProdutoX"
+}
+
+const responseNewProduct = {
+  "id": 4,
+  "name": "ProdutoX"
+};
+
 module.exports = {
   allProducts,
   productById,
+  newProduct,
+  responseNewProduct,
 }

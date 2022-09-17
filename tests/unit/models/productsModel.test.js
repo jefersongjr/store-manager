@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const productsModel = require('../../../src/models/productsModel');
 const conn = require('../../../src/models/connection');
-const { allProducts, productById } = require('../../mocks/mockProducts');
+const { allProducts, productById, newProduct } = require('../../mocks/mockProducts');
 
 describe('testes na camada model',async  () => {
   describe('testa A listagem de Produtos',async () => { 
@@ -39,4 +39,19 @@ describe('testes na camada model',async  () => {
     expect(result).to.be.deep.equal(allProducts[0]);
     })
   })  
+   
+    describe('testa a reposta ao adicionar um novo produto', async () => { 
+    before(async () => {
+        sinon.stub(conn, 'execute').resolves([{ insertId: 4 }]);
+    })
+
+    after(async () => {
+      conn.execute.restore();
+    })
+    
+    it('Testa se a busca pelo id retorna o objeto correto', async () => {
+    const result = await productsModel.addNewProduct(newProduct);
+    expect(result).to.be.deep.equal(4);
+    })
+  }) 
 });
