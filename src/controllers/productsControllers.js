@@ -14,13 +14,13 @@ const getProductsById = async (request, response) => {
   return response.status(200).json(products);
 };
 
-const createNewProduct = async (request, response, _next) => {
+const createNewProduct = async (request, response, next) => {
   try {
     const { name } = request.body;
     const newProduct = await productsServices.createProduct(name);
   return response.status(201).json(newProduct);
   } catch (error) {
-   console.log(error);
+   next(error);
   }
 };
 
